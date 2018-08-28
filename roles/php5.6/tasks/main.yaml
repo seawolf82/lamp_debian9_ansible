@@ -1,0 +1,85 @@
+---
+
+- name: ensure a list of basic packages installed
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - apt-transport-https 
+    - lsb-release 
+    - ca-certificates
+
+    
+- name: Import key repository php 5.6 
+  shell: curl  https://packages.sury.org/php/apt.gpg | apt-key add -
+
+- name: Adding repository 5.6
+  shell: echo 'deb https://packages.sury.org/php/ stretch main' > /etc/apt/sources.list.d/deb.sury.org.list
+
+- name: Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+
+
+- name: Install php5.6 package
+  apt:
+    name: php5.6
+    state: present
+
+
+- name: ensure a list of basic php 5.6 packages installed
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - php5.6-cli
+    - php5.6-common
+    - php5.6-curl
+    - php5.6-mbstring
+    - php5.6-mysql
+    - php5.6-xml
+    - php5.6-apcu 
+    - php5.6-cgi 
+    - php5.6-curl 
+    - php5.6-enchant 
+    - php5.6-fpm 
+    - php5.6-gd 
+    - php5.6-geoip 
+    - php5.6-gmp 
+    - php5.6-imagick 
+    - php5.6-imap 
+    - php5.6-interbase 
+    - php5.6-intl 
+    - php5.6-json 
+    - php5.6-ldap 
+    - php5.6-mcrypt 
+    - php5.6-memcache 
+    - php5.6-memcached 
+    - php5.6-mongo 
+    - php5.6-mssql 
+    - php5.6-mysql 
+    - php5.6-odbc 
+    - php5.6-pgsql 
+    - php5.6-pspell 
+    - php5.6-radius 
+    - php5.6-recode 
+    - php5.6-rrd 
+    - php5.6-snmp 
+    - php5.6-xsl
+
+
+- name: correct php5.6 version selected
+  shell: update-alternatives --set php /usr/bin/php5.6
+
+- name: correct phar5.6 version selected
+  shell: update-alternatives --set phar /usr/bin/phar5.6
+
+- name: correct phar.phar5.6 version selected
+  shell: update-alternatives --set phar.phar /usr/bin/phar.phar5.6
+
+- name: correct php-cgi5.6 version selected
+  shell: update-alternatives --set php-cgi /usr/bin/php-cgi5.6
+
+
+
+

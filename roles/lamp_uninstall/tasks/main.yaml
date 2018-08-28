@@ -1,0 +1,77 @@
+---
+
+- name: disable Apache service
+  systemd:
+    name: apache2
+    enabled: false
+
+- name: Make sure Apache service is stopped
+  systemd:
+    state: stopped
+    name: apache2
+
+
+- name: disable MariaDB service
+  systemd:
+    name: mariadb
+    enabled: false
+
+- name: Make sure MariaDB service is stopped
+  systemd:
+    state: stopped
+    name: mariadb
+
+
+- name: remove Apache package
+  apt:
+    name: apache2
+    state: absent
+    purge: yes
+    force: yes
+
+- name: remove MariaDb package
+  apt:
+    name: mariadb-server
+    state: absent
+    purge: yes
+    force: yes
+
+- name: remove MariaDb package
+  apt:
+    name: mariadb-client
+    state: absent
+    purge: yes
+    force: yes
+
+- name: remove MariaDb package
+  apt:
+    name: mariadb-common
+    state: absent
+    purge: yes
+    force: yes
+
+
+- name: main | uninstall php 5.6 packages
+  apt: >
+    pkg={{ item }} 
+    state=absent
+    purge=yes
+    force=yes
+  with_items:
+    - php5.6*
+
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+- name: removing firewall rules for http
+  command: firewall-cmd --remove-service=http --permanent
+
+- name: removing firewall rules for https 
+  command: firewall-cmd --remove-service=https --permanent
+  notify: Reloading firewalld rules

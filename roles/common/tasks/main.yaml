@@ -1,0 +1,74 @@
+---
+
+
+- name: upgrade all packages 
+  apt:
+    name: "*"
+    state: latest
+    force_apt_get: True
+
+- name: ensure a list of packages installed
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - wget
+    - curl
+    - bash-completion
+    - vim
+    - zip
+    - bzip2
+    - gzip
+
+
+
+- name: Install htop
+  package: 
+    name: htop
+    state: present
+
+
+- name: Install firewalld
+  package: 
+    name: firewalld
+    state: present
+
+
+- name: adding firewall rules for ntp service
+  command: firewall-cmd --add-service=ntp --permanent
+  notify: Reloading firewalld rules
+
+
+- name: Ensure NTP-related packages is installed
+  package: 
+    name: ntp
+    state: present
+
+- name: Ensure tzdata package is installed (Linux).
+  package:
+    name: tzdata
+    state: present
+
+- name: Ensure rsyslog package is installed
+  package:
+    name: rsyslog
+    state: present
+
+
+- name: Ensure rsyslog is running and enabled as configured
+  systemd:
+    name: rsyslog
+    state: started
+    enabled: yes
+
+  
+- name: Restart ntp daemon
+  systemd:
+    name: ntp
+    state: restarted 
+
+- name: Ensure ntp is running and enabled as configured
+  systemd:
+    name: ntp
+    state: started
+    enabled: yes

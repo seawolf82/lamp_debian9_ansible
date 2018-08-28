@@ -1,0 +1,101 @@
+---
+
+- name: Install Apache2 package
+  apt:
+    name: apache2
+    state: present
+
+
+- name: enable Apache2 service
+  systemd:
+    name: apache2
+    enabled: yes
+
+
+- name: Make sure Apache2 service is running
+  systemd:
+    state: started
+    name: apache2
+
+
+
+- name: Copy test.php into /var/www/html
+  copy:
+    src: test.php
+    dest: /var/www/html/test.php
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+
+- name: Copy test.php into /var/www/html
+  copy:
+    src: apache2.conf
+    dest: /etc/apache2/apache2.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+
+- apache2_module:
+    state: present
+    name: expires 
+
+ 
+- apache2_module:
+    state: present
+    name: suexec
+
+
+- apache2_module:
+    state: present
+    name: rewrite
+
+
+- apache2_module:
+    state: present
+    name: ssl
+
+
+- apache2_module:
+    state: present
+    name: actions
+
+
+- apache2_module:
+    state: present
+    name: include
+
+
+- apache2_module:
+    state: present
+    name: cgi
+
+
+- apache2_module:
+    state: present
+    name: headers
+
+
+- apache2_module:
+    state: present
+    name: info
+
+- apache2_module:
+    state: present
+    name: php5.6
+
+
+- name: Restart Apache Server
+  systemd:
+    state: restarted
+    name: apache2
+
+- name: adding firewall rules for http
+  command: firewall-cmd --add-service=http --permanent
+
+- name: adding firewall rules for https 
+  command: firewall-cmd --add-service=https --permanent
+  notify: Reloading firewalld rules
+
+

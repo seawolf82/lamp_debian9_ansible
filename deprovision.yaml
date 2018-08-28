@@ -1,0 +1,6 @@
+- name: Terminate running Apache2, MariaDB and remove all files
+  hosts: lamp-servers
+  remote_user: root
+  roles:
+    - lamp_uninstall
+

@@ -1,0 +1,13 @@
+
+- hosts: all
+  remote_user: root
+  roles:
+    - common
+
+- hosts: lamp-servers
+  remote_user: root
+  roles:
+    - php5.6
+    - mariadb
+    - apache2
+
