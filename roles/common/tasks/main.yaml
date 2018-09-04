@@ -6,6 +6,7 @@
     name: "*"
     state: latest
     force_apt_get: True
+  tags: upgrade  
 
 - name: ensure a list of packages installed
   apt:
@@ -19,6 +20,7 @@
     - zip
     - bzip2
     - gzip
+  tags: package 
 
 
 
@@ -26,33 +28,39 @@
   package: 
     name: htop
     state: present
+  tags: package 
 
 
 - name: Install firewalld
   package: 
     name: firewalld
     state: present
+  tags: package 
 
 
 - name: adding firewall rules for ntp service
   command: firewall-cmd --add-service=ntp --permanent
   notify: Reloading firewalld rules
+  tags: ntp
 
 
 - name: Ensure NTP-related packages is installed
   package: 
     name: ntp
     state: present
+  tags: ntp
 
 - name: Ensure tzdata package is installed (Linux).
   package:
     name: tzdata
     state: present
+  tags: package
 
 - name: Ensure rsyslog package is installed
   package:
     name: rsyslog
     state: present
+  tags: package
 
 
 - name: Ensure rsyslog is running and enabled as configured
@@ -60,15 +68,18 @@
     name: rsyslog
     state: started
     enabled: yes
+  tags: package
 
   
 - name: Restart ntp daemon
   systemd:
     name: ntp
     state: restarted 
+  tags: ntp
 
 - name: Ensure ntp is running and enabled as configured
   systemd:
     name: ntp
     state: started
     enabled: yes
+  tags: ntp

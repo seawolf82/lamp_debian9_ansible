@@ -4,18 +4,21 @@
   apt:
     name: apache2
     state: present
+  tags: apache2  
 
 
 - name: enable Apache2 service
   systemd:
     name: apache2
     enabled: yes
+  tags: apache2  
 
 
 - name: Make sure Apache2 service is running
   systemd:
     state: started
     name: apache2
+  tags: apache2  
 
 
 
@@ -26,6 +29,7 @@
     owner: root
     group: root
     mode: u=rw,g=r,o=r
+  tags: apache2  
 
 
 - name: Copy test.php into /var/www/html
@@ -35,6 +39,7 @@
     owner: root
     group: root
     mode: u=rw,g=r,o=r
+  tags: apache2  
 
 
 - apache2_module:
@@ -90,12 +95,15 @@
   systemd:
     state: restarted
     name: apache2
+  tags: apache2  
 
 - name: adding firewall rules for http
   command: firewall-cmd --add-service=http --permanent
+  tags: apache2  
 
 - name: adding firewall rules for https 
   command: firewall-cmd --add-service=https --permanent
   notify: Reloading firewalld rules
+  tags: apache2  
 
 

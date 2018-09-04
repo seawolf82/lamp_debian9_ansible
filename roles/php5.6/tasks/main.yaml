@@ -8,23 +8,28 @@
     - apt-transport-https 
     - lsb-release 
     - ca-certificates
+  tags: php56    
 
     
 - name: Import key repository php 5.6 
   shell: curl  https://packages.sury.org/php/apt.gpg | apt-key add -
+  tags: php56    
 
 - name: Adding repository 5.6
   shell: echo 'deb https://packages.sury.org/php/ stretch main' > /etc/apt/sources.list.d/deb.sury.org.list
+  tags: php56    
 
 - name: Run the equivalent of "apt-get update" as a separate step
   apt:
     update_cache: yes
+  tags: php56    
 
 
 - name: Install php5.6 package
   apt:
     name: php5.6
     state: present
+  tags: php56    
 
 
 - name: ensure a list of basic php 5.6 packages installed
@@ -66,19 +71,24 @@
     - php5.6-rrd 
     - php5.6-snmp 
     - php5.6-xsl
+  tags: php56    
 
 
 - name: correct php5.6 version selected
   shell: update-alternatives --set php /usr/bin/php5.6
+  tags: php56    
 
 - name: correct phar5.6 version selected
   shell: update-alternatives --set phar /usr/bin/phar5.6
+  tags: php56    
 
 - name: correct phar.phar5.6 version selected
   shell: update-alternatives --set phar.phar /usr/bin/phar.phar5.6
+  tags: php56    
 
 - name: correct php-cgi5.6 version selected
   shell: update-alternatives --set php-cgi /usr/bin/php-cgi5.6
+  tags: php56    
 
 
 
