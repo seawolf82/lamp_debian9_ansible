@@ -98,11 +98,17 @@
   tags: apache2  
 
 - name: adding firewall rules for http
-  command: firewall-cmd --add-service=http --permanent
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
   tags: apache2  
 
 - name: adding firewall rules for https 
-  command: firewall-cmd --add-service=https --permanent
+  firewalld:
+    service: https
+    permanent: true
+    state: enabled
   notify: Reloading firewalld rules
   tags: apache2  
 

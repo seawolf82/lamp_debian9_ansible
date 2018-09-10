@@ -69,9 +69,15 @@
   apt:
     autoremove: yes
 
-- name: removing firewall rules for http
-  command: firewall-cmd --remove-service=http --permanent
+- name: removing firewalld rules for http
+  firewalld:
+    service: http
+    permanent: true
+    state: disabled
 
-- name: removing firewall rules for https 
-  command: firewall-cmd --remove-service=https --permanent
+- name: removing firewalld rules for https 
+  firewalld:
+    service: https
+    permanent: true
+    state: disabled
   notify: Reloading firewalld rules
